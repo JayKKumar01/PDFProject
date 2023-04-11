@@ -7,10 +7,20 @@ public class WordInfo {
 
     private String word;
     private List<TextPosition> textPositions;
+    private Operation operation;
+    private int pageNumber = 1;
 
     public WordInfo(String word, List<TextPosition> textPositions) {
         this.word = word;
         this.textPositions = textPositions;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
     }
 
     public String getWord() {
@@ -21,7 +31,7 @@ public class WordInfo {
         return textPositions;
     }
 
-    public String getFont() {
+    public String getFontName() {
         if (textPositions != null && textPositions.size() > 0) {
             TextPosition firstTextPosition = textPositions.get(0);
             return firstTextPosition.getFont().getName();
@@ -36,5 +46,16 @@ public class WordInfo {
         }
         return 0;
     }
-}
 
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
+
+    public enum Operation {
+        EQUAL, ADDED, DELETED, FONTDIFFERENCE
+    }
+}

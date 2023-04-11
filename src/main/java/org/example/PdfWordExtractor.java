@@ -17,7 +17,17 @@ public class PdfWordExtractor extends PDFTextStripper {
         super();
         this.pdfFile = pdfFile;
         PDDocument doc = PDDocument.load(pdfFile);
+        //this.setSortByPosition(true);
         this.getText(doc);
+    }
+
+    public static List<WordInfo> getList(File pdf) {
+        try {
+            PdfWordExtractor pdfWordExtractor = new PdfWordExtractor(pdf);
+            return pdfWordExtractor.getWordInfoList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -31,6 +41,7 @@ public class PdfWordExtractor extends PDFTextStripper {
                     positions.add(textPositions.get(j));
                 }
                 WordInfo wordInfo = new WordInfo(word, positions);
+                wordInfo.setPageNumber(this.getCurrentPageNo());
                 wordInfoList.add(wordInfo);
             }
             i += word.length() + 1;
