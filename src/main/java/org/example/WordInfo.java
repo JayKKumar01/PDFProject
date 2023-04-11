@@ -21,7 +21,7 @@ public class WordInfo {
         return textPositions;
     }
 
-    public String getFontName() {
+    public String getFont() {
         if (textPositions != null && textPositions.size() > 0) {
             TextPosition firstTextPosition = textPositions.get(0);
             return firstTextPosition.getFont().getName();
