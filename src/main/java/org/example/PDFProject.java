@@ -41,7 +41,8 @@ public class PDFProject {
         List<WordInfo> diff = StringDiff.findDifference(wordList1,wordList2);
 
         for (WordInfo wordInfo: diff){
-            diffString += "\""+wordInfo.getWord()+"\"" + ": "+ wordInfo.getOperation()+"\n";
+            String opList = wordInfo.getOperationsList().toString();
+            diffString += "\""+wordInfo.getWord()+"\"" + ": "+ opList+"\n";
         }
 
         try {

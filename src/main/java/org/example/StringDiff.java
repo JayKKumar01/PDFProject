@@ -33,10 +33,16 @@ public class StringDiff {
         while (i > 0 || j > 0) {
             if (i > 0 && j > 0 && words1[i-1].equals(words2[j-1])) {
                 WordInfo wordInfo = wordList2.get(j-1);
+
                 if (Base.isFontInfoSame(wordList1.get(i-1), wordInfo)) {
                     wordInfo.setOperation(WordInfo.Operation.EQUAL);
                 } else {
-                    wordInfo.setOperation(WordInfo.Operation.FONTDIFFERENCE);
+                    List<WordInfo.Operation> list = Base.getFontOperation(wordList1.get(i-1), wordInfo);
+                    if (list.size() == 1){
+                        wordInfo.setOperation(list.get(0));
+                    }else {
+                        wordInfo.setOperation(list);
+                    }
                 }
                 diff.add(0, wordInfo);
                 i--;
