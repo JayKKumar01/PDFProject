@@ -17,7 +17,7 @@ public class Base {
                 wordInfo1.getFontSize() == wordInfo2.getFontSize();
     }
 
-    public static void updateDocument(List<WordInfo> wordList, File pdf1, File pdf2) throws IOException {
+    public static void updateDocument(List<WordInfo> wordList, File pdf1, File pdf2,String outputPath) throws IOException {
         PDDocument document1 = PDDocument.load(pdf1);
         PDDocument document2 = PDDocument.load(pdf2);
         for (WordInfo wordInfo : wordList) {
@@ -36,8 +36,8 @@ public class Base {
         document2.save(path2);
         document1.close();
         document2.close();
-        System.out.println("Navigate to Document to see Result");
-        PDFToImageConverter.createImage(new File(path1), new File(path2));
+        //System.out.println("Navigate to Document to see Result");
+        PDFToImageConverter.createImage(new File(path1), new File(path2),outputPath);
 
 
 //        PDFToImageConverter converter = new PDFToImageConverter(new File(path));

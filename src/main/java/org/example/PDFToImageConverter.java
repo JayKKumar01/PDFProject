@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class PDFToImageConverter {
         }
     }
 
-    public static void createImage(File pdf1, File pdf2) throws IOException {
+    public static void createImage(File pdf1, File pdf2,String outputPath) throws IOException {
         // Load the first PDF and render all its pages to images
         List<BufferedImage> pdf1Images = createImagesFromPdf(pdf1);
 
@@ -58,12 +57,12 @@ public class PDFToImageConverter {
                 combinedImage.createGraphics().drawImage(pdf2Image, pdf1Image != null ? pdf1Image.getWidth() : 0, 0, null);
             }
 
-            File combinedImageFile = new File("combined_page_" + (i+1) + ".png");
+            File combinedImageFile = new File(outputPath,"combined_page_" + (i+1) + ".png");
             ImageIO.write(combinedImage, "png", combinedImageFile);
             System.out.println("Created at: "+combinedImageFile.getAbsolutePath());
         }
 
-        System.out.println("Combined images created!");
+        System.out.println("Combined images created at :"+outputPath);
     }
 
 }

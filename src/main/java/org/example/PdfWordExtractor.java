@@ -17,7 +17,7 @@ public class PdfWordExtractor extends PDFTextStripper {
         super();
         this.pdfFile = pdfFile;
         PDDocument doc = PDDocument.load(pdfFile);
-        //this.setSortByPosition(true);
+        this.setSortByPosition(true);
         this.getText(doc);
     }
 
