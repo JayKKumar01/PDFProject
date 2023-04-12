@@ -18,6 +18,11 @@ public class PDFToImageConverter {
             PDFRenderer renderer = new PDFRenderer(document);
             int numPages = document.getNumberOfPages();
             List<BufferedImage> pageImages = new ArrayList<>();
+            if (pages.isEmpty()){
+                for (int i=1; i<=document.getNumberOfPages(); i++){
+                    pages.add(i);
+                }
+            }
 
             for (int i: pages) {
                 BufferedImage image = renderer.renderImageWithDPI(i-1, 300); // set the DPI to 300

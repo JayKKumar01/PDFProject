@@ -53,6 +53,9 @@ public class PDFProject {
             System.out.println("Please provide valid pages");
             return;
         }
+
+        //modify(pagesPDF1,pagesPDF2);
+
         List<WordInfo> wordList1 = PdfWordExtractor.getList(pdf1,pagesPDF1);
         List<WordInfo> wordList2 = PdfWordExtractor.getList(pdf2,pagesPDF1);
 //
@@ -70,6 +73,8 @@ public class PDFProject {
             throw new RuntimeException(e);
         }
     }
+
+
 
     private boolean areValidPages(List<Integer> pagesPDF1, List<Integer> pagesPDF2) {
         for(int i: pagesPDF1){
