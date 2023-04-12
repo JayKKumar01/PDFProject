@@ -34,9 +34,8 @@ public class Base {
         return list;
     }
 
-    public static void updateDocument(List<WordInfo> wordList, File pdf1, File pdf2,String outputPath) throws IOException {
-        PDDocument document1 = PDDocument.load(pdf1);
-        PDDocument document2 = PDDocument.load(pdf2);
+    public static void updateDocument(List<WordInfo> wordList, PDDocument document1, PDDocument document2, String outputPath, List<Integer> pagesPDF1, List<Integer> pagesPDF2) throws IOException {
+
         for (WordInfo wordInfo : wordList) {
             List<WordInfo.Operation> opList = wordInfo.getOperationsList();
             if (opList.size() == 1){
@@ -63,7 +62,7 @@ public class Base {
         document1.close();
         document2.close();
         //System.out.println("Navigate to Document to see Result");
-        PDFToImageConverter.createImage(new File(path1), new File(path2),outputPath);
+        PDFToImageConverter.createImage(new File(path1), new File(path2),outputPath,pagesPDF1,pagesPDF2);
 
 
 //        PDFToImageConverter converter = new PDFToImageConverter(new File(path));

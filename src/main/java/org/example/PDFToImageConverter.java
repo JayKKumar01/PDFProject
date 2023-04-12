@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PDFToImageConverter {
-    public static List<BufferedImage> createImagesFromPdf(File pdfFile) throws IOException {
+    public static List<BufferedImage> createImagesFromPdf(File pdfFile,List<Integer> pages) throws IOException {
         PDDocument document = null;
         try {
             document = PDDocument.load(pdfFile);
@@ -19,8 +19,8 @@ public class PDFToImageConverter {
             int numPages = document.getNumberOfPages();
             List<BufferedImage> pageImages = new ArrayList<>();
 
-            for (int i = 0; i < numPages; i++) {
-                BufferedImage image = renderer.renderImageWithDPI(i, 300); // set the DPI to 300
+            for (int i: pages) {
+                BufferedImage image = renderer.renderImageWithDPI(i-1, 300); // set the DPI to 300
                 pageImages.add(image);
             }
 
@@ -32,12 +32,12 @@ public class PDFToImageConverter {
         }
     }
 
-    public static void createImage(File pdf1, File pdf2,String outputPath) throws IOException {
+    public static void createImage(File pdf1, File pdf2, String outputPath, List<Integer> pagesPDF1, List<Integer> pagesPDF2) throws IOException {
         // Load the first PDF and render all its pages to images
-        List<BufferedImage> pdf1Images = createImagesFromPdf(pdf1);
+        List<BufferedImage> pdf1Images = createImagesFromPdf(pdf1,pagesPDF1);
 
         // Load the second PDF and render all its pages to images
-        List<BufferedImage> pdf2Images = createImagesFromPdf(pdf2);
+        List<BufferedImage> pdf2Images = createImagesFromPdf(pdf2,pagesPDF2);
 
         // Determine the number of pages in the combined PDF (the larger of the two)
         int numPages = Math.max(pdf1Images.size(), pdf2Images.size());

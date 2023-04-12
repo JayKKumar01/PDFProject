@@ -13,6 +13,13 @@ public class Main {
         File pdf2 = new File("E:/Sample/3.pdf");
 
         PDFProject pdfProject = new PDFProject(pdf1,pdf2);
+        pdfProject.setPageRangeForPDF1(1,1);
+        pdfProject.setPageRangeForPDF2(1,1);
+        int[] pages = {1};
+        pdfProject.setPagesNumberForPDF1(pages);
+        pdfProject.setPagesNumberForPDF2(pages);
+//        pdfProject.setPagesPDF1("d","d");
+//        pdfProject.setSecondPdfPageRange(0,2);
         pdfProject.setOutputPath("E:/Sample/outputImges/");
         pdfProject.compare();
         System.out.println(pdfProject.getDiffString());

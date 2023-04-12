@@ -10,20 +10,26 @@ import org.apache.pdfbox.text.TextPosition;
 
 public class PdfWordExtractor extends PDFTextStripper {
 
-    private final File pdfFile;
-    private List<WordInfo> wordInfoList = new ArrayList<>();
+    private final List<WordInfo> wordInfoList = new ArrayList<>();
 
-    public PdfWordExtractor(File pdfFile) throws IOException {
+    public PdfWordExtractor(PDDocument doc, List<Integer> pagesToExtract) throws IOException {
         super();
-        this.pdfFile = pdfFile;
-        PDDocument doc = PDDocument.load(pdfFile);
-        this.setSortByPosition(true);
-        this.getText(doc);
+        //this.setSortByPosition(true);
+        if (pagesToExtract.isEmpty()){
+            this.getText(doc);
+        }else {
+            for (int pageNum : pagesToExtract) {
+                this.setStartPage(pageNum);
+                this.setEndPage(pageNum);
+                this.getText(doc);
+            }
+        }
+
     }
 
-    public static List<WordInfo> getList(File pdf) {
+    public static List<WordInfo> getList(PDDocument pdf, List<Integer> pagesToExtract) {
         try {
-            PdfWordExtractor pdfWordExtractor = new PdfWordExtractor(pdf);
+            PdfWordExtractor pdfWordExtractor = new PdfWordExtractor(pdf,pagesToExtract);
             return pdfWordExtractor.getWordInfoList();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -52,5 +58,6 @@ public class PdfWordExtractor extends PDFTextStripper {
     public List<WordInfo> getWordInfoList() {
         return wordInfoList;
     }
+
 
 }

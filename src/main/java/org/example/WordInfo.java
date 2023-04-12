@@ -63,13 +63,15 @@ public class WordInfo {
         return "normal";
     }
 
-    public float getFontSize() {
+    public int getFontSize() {
         if (textPositions != null && textPositions.size() > 0) {
             TextPosition firstTextPosition = textPositions.get(0);
-            return firstTextPosition.getFontSizeInPt();
+            float fontSize = firstTextPosition.getFontSize();
+            return Math.round(fontSize);
         }
         return 0;
     }
+
 
 
 
