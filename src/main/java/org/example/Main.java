@@ -11,15 +11,12 @@ public class Main {
     public static void main(String[] args) {
         File pdf1 = new File("E:/Sample/1.pdf");
         File pdf2 = new File("E:/Sample/3.pdf");
+//        File pdf1 = new File(Base.SAMPLEPATH+"SamplePdf_1.73Mb_87_Page.pdf");
+        //File pdf2 = pdf1;
 
         PDFProject pdfProject = new PDFProject(pdf1,pdf2);
-        //pdfProject.setPageRangeForPDF1(1,1);
-        pdfProject.setPageRangeForPDF2(1,1);
-//        int[] pages = {1};
-//        pdfProject.setPagesNumberForPDF1(pages);
-//        pdfProject.setPagesNumberForPDF2(pages);
-//        pdfProject.setPagesPDF1("d","d");
-//        pdfProject.setSecondPdfPageRange(0,2);
+//        pdfProject.setPagesNumberForPDF1(new int[]{11});
+//        pdfProject.setPagesNumberForPDF2(new int[]{11});
         pdfProject.setOutputPath("E:/Sample/outputImges/");
         pdfProject.compare();
         System.out.println(pdfProject.getDiffString());

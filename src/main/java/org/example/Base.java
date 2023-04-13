@@ -12,6 +12,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.text.TextPosition;
 
 public class Base {
+    public static final String SAMPLEPATH = "E:/Sample/";
 
     public static boolean isFontInfoSame(WordInfo wordInfo1, WordInfo wordInfo2) {
         if (wordInfo1.getFont() == null){
