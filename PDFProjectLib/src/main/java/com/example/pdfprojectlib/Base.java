@@ -1,4 +1,4 @@
-package org.example;
+package org.example.pdfprojectlib;
 
 import java.awt.Color;
 import java.io.File;

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.pdfprojectlib;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
