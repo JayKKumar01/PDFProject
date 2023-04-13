@@ -10,14 +10,18 @@ import java.util.List;
 public class PDFProject {
     PDDocument pdf1;
     PDDocument pdf2;
+    List<File> tempFiles = new ArrayList<>();
     String outputPath = System.getProperty("user.dir")+"/output";
     String diffString = "";
     List<Integer> pagesPDF1 = new ArrayList<>();
     List<Integer> pagesPDF2 = new ArrayList<>();
 
-    public PDFProject(File pdf1, File pdf2) {
-        this.pdf1 = getDoc(pdf1);
-        this.pdf2 = getDoc(pdf2);
+    public PDFProject() {
+    }
+
+    public PDFProject(String file1, String file2) {
+        this.pdf1 = getDoc(file1);
+        this.pdf2 = getDoc(file2);
 
 
         File outputFolder = new File(outputPath);
@@ -26,12 +30,22 @@ public class PDFProject {
         }
     }
 
-    private PDDocument getDoc(File pdf){
-        try {
-            return PDDocument.load(pdf);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private PDDocument getDoc(String path){
+        if (path.endsWith(".pdf")){
+            try {
+                return PDDocument.load(new File(path));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+        if (path.endsWith(".docx") || path.endsWith(".doc")){
+            try {
+                return PDDocument.load(WordToPdfConverter.toPDF(path));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
     }
 
     public void compare(){
@@ -67,10 +81,15 @@ public class PDFProject {
         }
 
         try {
-            Base.updateDocument(diff,pdf1,pdf2,outputPath,pagesPDF1,pagesPDF2);
+            ModifyPDF.updateDocument(diff,pdf1,pdf2,outputPath,pagesPDF1,pagesPDF2);
         } catch (IOException e) {
             System.out.println("Couldn't create images");
             throw new RuntimeException(e);
+        }
+        for (File file: tempFiles){
+            if (file.exists()){
+                file.delete();
+            }
         }
     }
 
@@ -154,5 +173,9 @@ public class PDFProject {
         for (int i: pages){
             pagesPDF2.add(i);
         }
+    }
+
+    public void addTempFile(File file){
+        tempFiles.add(file);
     }
 }

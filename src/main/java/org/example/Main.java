@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        File pdf1 = new File("E:/Sample/1.pdf");
-        File pdf2 = new File("E:/Sample/3.pdf");
+        String pdf1 = "E:/Sample/1.pdf";
+        String pdf2 = "E:/Sample/3.pdf";
 //        File pdf1 = new File(Base.SAMPLEPATH+"SamplePdf_1.73Mb_87_Page.pdf");
         //File pdf2 = pdf1;
 
