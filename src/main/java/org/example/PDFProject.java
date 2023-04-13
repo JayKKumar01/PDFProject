@@ -16,9 +16,6 @@ public class PDFProject {
     List<Integer> pagesPDF1 = new ArrayList<>();
     List<Integer> pagesPDF2 = new ArrayList<>();
 
-    public PDFProject() {
-    }
-
     public PDFProject(String file1, String file2) {
         this.pdf1 = getDoc(file1);
         this.pdf2 = getDoc(file2);
@@ -26,7 +23,9 @@ public class PDFProject {
 
         File outputFolder = new File(outputPath);
         if (!outputFolder.exists()){
-            outputFolder.mkdirs();
+            if (!outputFolder.mkdirs()){
+                System.out.println("Can't create Folder");
+            }
         }
     }
 
@@ -74,11 +73,13 @@ public class PDFProject {
         List<WordInfo> wordList2 = PdfWordExtractor.getList(pdf2,pagesPDF2);
 //
         List<WordInfo> diff = StringDiff.findDifference(wordList1,wordList2);
-
+        StringBuilder builder = new StringBuilder();
         for (WordInfo wordInfo: diff){
             String opList = wordInfo.getOperationsList().toString();
-            diffString += "\""+wordInfo.getWord()+"\"" + ": "+ opList+"\n";
+            builder.append("\"").append(wordInfo.getWord()).append("\"").append(": ").append(opList).append("\n");
+            //diffString += "\""+wordInfo.getWord()+"\"" + ": "+ opList+"\n";
         }
+        diffString = builder.toString();
 
         try {
             ModifyPDF.updateDocument(diff,pdf1,pdf2,outputPath,pagesPDF1,pagesPDF2);
@@ -88,8 +89,10 @@ public class PDFProject {
         }
         for (File file: tempFiles){
             if (file.exists()){
-                file.delete();
-                System.out.println(file.getAbsolutePath()+"\ndeleted");
+                if (file.delete()){
+                    System.out.println(file.getAbsolutePath()+"\ndeleted");
+                }
+
             }
         }
     }
@@ -108,10 +111,6 @@ public class PDFProject {
             }
         }
         return true;
-    }
-
-    public String getOutputPath() {
-        return outputPath;
     }
 
     public void setOutputPath(String outputPath) {

@@ -48,14 +48,14 @@ public class StringDiff {
                 i--;
                 j--;
             } else if (i > 0 && (j == 0 || dp[i][j-1] >= dp[i-1][j])) {
-                if (confirmDel(words1,words2[j-1],i,j)) {
+                if (confirmDel(words1,words2[j-1],i)) {
                     WordInfo wordInfo = wordList1.get(i - 1);
                     wordInfo.setOperation(WordInfo.Operation.DELETED);
                     diff.add(0, wordInfo);
                 }
                 i--;
             } else if (i == 0 || dp[i][j - 1] < dp[i - 1][j]) {
-                if (confirmAdd(words1,words2[j-1],i,j)) {
+                if (confirmAdd(words1,words2[j-1],i)) {
                     WordInfo wordInfo = wordList2.get(j - 1);
                     wordInfo.setOperation(WordInfo.Operation.ADDED);
                     diff.add(0, wordInfo);
@@ -66,25 +66,21 @@ public class StringDiff {
         return diff;
     }
 
-    private static boolean confirmAdd(String[] words1, String word, int i, int j) {
+    private static boolean confirmAdd(String[] words1, String word, int i) {
         if (words1.length >  i+1){
-            if (word.equals(words1[i]+words1[i+1])){
-                return false;
-            }
+            return !word.equals(words1[i] + words1[i + 1]);
         }
         return true;
     }
 
-    private static boolean confirmDel(String[] words1, String word, int i, int j) {
+    private static boolean confirmDel(String[] words1, String word, int i) {
         if (words1.length > i){
             if ((words1[i-1] +words1[i]).equals(word)){
                 return false;
             }
         }
         if (i-2 > -1){
-            if ((words1[i-2] +words1[i-1]).equals(word)){
-                return false;
-            }
+            return !(words1[i - 2] + words1[i - 1]).equals(word);
         }
         return true;
     }

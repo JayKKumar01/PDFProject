@@ -12,28 +12,21 @@ import java.util.List;
 
 public class PDFToImageConverter {
     public static List<BufferedImage> createImagesFromPdf(File pdfFile,List<Integer> pages) throws IOException {
-        PDDocument document = null;
-        try {
-            document = PDDocument.load(pdfFile);
+        try (PDDocument document = PDDocument.load(pdfFile)) {
             PDFRenderer renderer = new PDFRenderer(document);
-            int numPages = document.getNumberOfPages();
             List<BufferedImage> pageImages = new ArrayList<>();
-            if (pages.isEmpty()){
-                for (int i=1; i<=document.getNumberOfPages(); i++){
+            if (pages.isEmpty()) {
+                for (int i = 1; i <= document.getNumberOfPages(); i++) {
                     pages.add(i);
                 }
             }
 
-            for (int i: pages) {
-                BufferedImage image = renderer.renderImageWithDPI(i-1, 300); // set the DPI to 300
+            for (int i : pages) {
+                BufferedImage image = renderer.renderImageWithDPI(i - 1, 300); // set the DPI to 300
                 pageImages.add(image);
             }
 
             return pageImages;
-        } finally {
-            if (document != null) {
-                document.close();
-            }
         }
     }
 

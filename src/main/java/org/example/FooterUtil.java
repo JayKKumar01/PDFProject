@@ -37,12 +37,12 @@ public class FooterUtil {
             float pageWidth = document.getPage(curPage).getMediaBox().getWidth();
             float pageHeight = document.getPage(curPage).getMediaBox().getHeight();
 
-            float footerHeight = getFooterHeight(pageHeight, curPage);
+            float footerHeight = getFooterHeight(curPage);
             System.out.println(pageHeight+" "+footerHeight);
 
             // rectangle representing the footer region
             if (footerHeight > 0) {
-                Rectangle rect = new Rectangle(0, (int) footerHeight, (int) pageWidth, (int) footerHeight);
+                Rectangle rect = new Rectangle(0, (int) (pageHeight - footerHeight), (int) pageWidth, (int) footerHeight);
 
                 stripper.addRegion("footer", rect);
                 stripper.extractRegions(document.getPage(curPage));
@@ -57,7 +57,7 @@ public class FooterUtil {
         return footerTextList;
     }
 
-    private float getFooterHeight(float pageHeight, int curPage) {
-        return pageHeight - myTextStripper.getFirstTextY(curPage + 1);
+    private float getFooterHeight(int curPage) {
+        return myTextStripper.getFirstTextY(curPage + 1);
     }
 }

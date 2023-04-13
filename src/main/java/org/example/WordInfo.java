@@ -3,12 +3,11 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.pdfbox.text.TextPosition;
-import org.apache.poi.sl.draw.geom.GuideIf;
 
 public class WordInfo {
 
-    private String word;
-    private List<TextPosition> textPositions;
+    private final String word;
+    private final List<TextPosition> textPositions;
     private List<Operation> operationsList = new ArrayList<>();
     private int pageNumber = 1;
 
@@ -87,9 +86,9 @@ public class WordInfo {
     }
 
     public enum Operation {
-        EQUAL, ADDED, DELETED, FONTSIZEDIFF,FONTNAMEDIFF,FONTSTYLEDIFF;
+        EQUAL, ADDED, DELETED, FONTSIZEDIFF,FONTNAMEDIFF,FONTSTYLEDIFF
     }
-    public enum FontStyle{
-        NORMAL,BOLD,ITELIC,BOLD_ITELIC;
-    }
+//    public enum FontStyle{
+//        NORMAL,BOLD,ITELIC,BOLD_ITELIC;
+//    }
 }

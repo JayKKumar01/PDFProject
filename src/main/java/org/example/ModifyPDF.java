@@ -46,12 +46,6 @@ public class ModifyPDF {
         PDFProject.addTempFile(file2);
         PDFToImageConverter.createImage(file1, file2,outputPath,pagesPDF1,pagesPDF2);
 
-
-//        PDFToImageConverter converter = new PDFToImageConverter(new File(path));
-//        String imgPath = System.getProperty("user.dir");
-//        converter.converToImage(imgPath);
-//        System.out.println("Updated image saved at: " + imgPath);
-
     }
 
     private static void addRect(WordInfo wordInfo, PDDocument document, Color color) throws IOException {

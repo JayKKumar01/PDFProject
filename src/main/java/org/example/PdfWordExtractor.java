@@ -1,6 +1,5 @@
 package org.example;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ public class PdfWordExtractor extends PDFTextStripper {
     }
 
     @Override
-    protected void writeString(String string, List<TextPosition> textPositions) throws IOException {
+    protected void writeString(String string, List<TextPosition> textPositions) {
         String[] words = string.split(getWordSeparator());
         int i = 0;
         for (String word : words) {
