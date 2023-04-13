@@ -10,7 +10,7 @@ import java.util.List;
 public class PDFProject {
     PDDocument pdf1;
     PDDocument pdf2;
-    List<File> tempFiles = new ArrayList<>();
+    static List<File> tempFiles = new ArrayList<>();
     String outputPath = System.getProperty("user.dir")+"/output";
     String diffString = "";
     List<Integer> pagesPDF1 = new ArrayList<>();
@@ -89,6 +89,7 @@ public class PDFProject {
         for (File file: tempFiles){
             if (file.exists()){
                 file.delete();
+                System.out.println(file.getAbsolutePath()+"\ndeleted");
             }
         }
     }
@@ -175,7 +176,10 @@ public class PDFProject {
         }
     }
 
-    public void addTempFile(File file){
+    public static void addTempFile(File file){
         tempFiles.add(file);
+    }
+
+    public void setForm(String s) {
     }
 }

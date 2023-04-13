@@ -34,7 +34,7 @@ public class WordToPdfConverter {
                     .as(DocumentType.PDF).execute();
             converter.shutDown();
             outputStream.close();
-            new PDFProject().addTempFile(outputPdf);
+            PDFProject.addTempFile(outputPdf);
             System.out.println("Converted!");
         } catch (IOException e) {
             throw new RuntimeException(e);

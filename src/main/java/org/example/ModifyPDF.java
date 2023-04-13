@@ -40,7 +40,11 @@ public class ModifyPDF {
         document1.close();
         document2.close();
         //System.out.println("Navigate to Document to see Result");
-        PDFToImageConverter.createImage(new File(path1), new File(path2),outputPath,pagesPDF1,pagesPDF2);
+        File file1 = new File(path1);
+        File file2 = new File(path2);
+        PDFProject.addTempFile(file1);
+        PDFProject.addTempFile(file2);
+        PDFToImageConverter.createImage(file1, file2,outputPath,pagesPDF1,pagesPDF2);
 
 
 //        PDFToImageConverter converter = new PDFToImageConverter(new File(path));
