@@ -48,7 +48,13 @@ public class StringDiff {
                 i--;
                 j--;
             } else if (i > 0 && (j == 0 || dp[i][j-1] >= dp[i-1][j])) {
-                if (confirmDel(words1,words2[j-1],i)) {
+
+                if (j ==0){
+                    WordInfo wordInfo = wordList1.get(i - 1);
+                    wordInfo.setOperation(WordInfo.Operation.DELETED);
+                    diff.add(0, wordInfo);
+                }
+                if (j>0 && confirmDel(words1,words2[j-1],i)) {
                     WordInfo wordInfo = wordList1.get(i - 1);
                     wordInfo.setOperation(WordInfo.Operation.DELETED);
                     diff.add(0, wordInfo);
