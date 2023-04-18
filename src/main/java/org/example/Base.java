@@ -17,13 +17,19 @@ public class Base {
     public static List<WordInfo.Operation> getFontOperation(WordInfo wordInfo1, WordInfo wordInfo2) {
         List<WordInfo.Operation> list = new ArrayList<>();
         if (!wordInfo1.getFontName().equals(wordInfo2.getFontName())){
-            list.add(WordInfo.Operation.FONTNAMEDIFF);
+            WordInfo.Operation operation = WordInfo.Operation.FONTNAMEDIFF;
+            operation.setInfo(wordInfo1.getFontName() + " : "+wordInfo2.getFontName());
+            list.add(operation);
         }
         if (wordInfo1.getFontSize() != wordInfo2.getFontSize()){
-            list.add(WordInfo.Operation.FONTSIZEDIFF);
+            WordInfo.Operation operation = WordInfo.Operation.FONTSIZEDIFF;
+            operation.setInfo(wordInfo1.getFontSize() + " : "+wordInfo2.getFontSize());
+            list.add(operation);
         }
         if (!wordInfo1.getFontStyle().equals(wordInfo2.getFontStyle())){
-            list.add(WordInfo.Operation.FONTSTYLEDIFF);
+            WordInfo.Operation operation = WordInfo.Operation.FONTSTYLEDIFF;
+            operation.setInfo(wordInfo1.getFontStyle() + " : "+wordInfo2.getFontStyle());
+            list.add(operation);
         }
         return list;
     }

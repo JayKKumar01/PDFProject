@@ -23,9 +23,9 @@ public class Main {
 
 
         PDFProject pdfProject = new PDFProject(pdf1,pdf2);
-        pdfProject.setForm("Form-001");
-//        pdfProject.setPagesNumberForPDF1(new int[]{11});
-//        pdfProject.setPagesNumberForPDF2(new int[]{11});
+        //pdfProject.setForm("Form-001");
+//        pdfProject.setPagesNumberForFile1(new int[]{11});
+//        pdfProject.setPagesNumberForFile2(new int[]{11});
         pdfProject.setOutputPath("E:/Sample/outputImages/");
         pdfProject.compare();
         System.out.println(pdfProject.getDiffString());

@@ -86,7 +86,14 @@ public class WordInfo {
     }
 
     public enum Operation {
-        EQUAL, ADDED, DELETED, FONTSIZEDIFF,FONTNAMEDIFF,FONTSTYLEDIFF
+        EQUAL, ADDED, DELETED, FONTSIZEDIFF,FONTNAMEDIFF,FONTSTYLEDIFF;
+        String info = null;
+        void setInfo(String info){
+            this.info = info;
+        }
+        String getInfo(){
+            return info;
+        }
     }
 //    public enum FontStyle{
 //        NORMAL,BOLD,ITELIC,BOLD_ITELIC;

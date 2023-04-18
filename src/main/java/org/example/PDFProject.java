@@ -75,8 +75,27 @@ public class PDFProject {
         List<WordInfo> diff = StringDiff.findDifference(wordList1,wordList2);
         StringBuilder builder = new StringBuilder();
         for (WordInfo wordInfo: diff){
-            String opList = wordInfo.getOperationsList().toString();
-            builder.append("\"").append(wordInfo.getWord()).append("\"").append(": ").append(opList).append("\n");
+            boolean accept = false;
+
+            StringBuilder info = new StringBuilder();
+            info.append("\"").append(wordInfo.getWord()).append("\":");
+
+            for (WordInfo.Operation operation: wordInfo.getOperationsList()){
+                if (operation == WordInfo.Operation.FONTSIZEDIFF || operation == WordInfo.Operation.FONTSTYLEDIFF || operation == WordInfo.Operation.FONTNAMEDIFF){
+                    info.append(" [").append(operation).append("(").append(operation.getInfo()).append(")]");
+                    accept = true;
+                }
+                if (operation == WordInfo.Operation.DELETED || operation == WordInfo.Operation.ADDED){
+                    info.append(" [").append(operation).append("]");
+                    accept = true;
+                }
+            }
+            if (accept){
+                builder.append(info).append("\n");
+            }
+
+//            String opList = wordInfo.getOperationsList().toString();
+//            builder.append("\"").append(wordInfo.getWord()).append("\"").append(": ").append(opList).append("\n");
             //diffString += "\""+wordInfo.getWord()+"\"" + ": "+ opList+"\n";
         }
         diffString = builder.toString();
@@ -137,10 +156,23 @@ public class PDFProject {
         this.pagesPDF2 = pagesPDF2;
     }
 
+    public void setPageForFile1(int page){
+        if (!pagesPDF1.isEmpty()){
+            pagesPDF1.clear();
+        }
+        pagesPDF1.add(page);
+    }
+    public void setPageForFile2(int page){
+        if (!pagesPDF2.isEmpty()){
+            pagesPDF2.clear();
+        }
+        pagesPDF2.add(page);
+    }
 
 
 
-    public void setPageRangeForPDF1(int startPage, int endPage) {
+
+    public void setPageRangeForFile1(int startPage, int endPage) {
         if (!pagesPDF1.isEmpty()){
             pagesPDF1.clear();
         }
@@ -148,7 +180,7 @@ public class PDFProject {
             pagesPDF1.add(i);
         }
     }
-    public void setPageRangeForPDF2(int startPage, int endPage) {
+    public void setPageRangeForFile2(int startPage, int endPage) {
         if (!pagesPDF2.isEmpty()){
             pagesPDF2.clear();
         }
@@ -157,7 +189,7 @@ public class PDFProject {
         }
     }
 
-    public void setPagesNumberForPDF1(int[] pages) {
+    public void setPagesNumberForFile1(int[] pages) {
         if (!pagesPDF1.isEmpty()){
             pagesPDF1.clear();
         }
@@ -166,7 +198,7 @@ public class PDFProject {
         }
     }
 
-    public void setPagesNumberForPDF2(int[] pages) {
+    public void setPagesNumberForFile2(int[] pages) {
         if (!pagesPDF2.isEmpty()){
             pagesPDF2.clear();
         }
