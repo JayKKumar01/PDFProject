@@ -72,7 +72,7 @@ public class PDFProject {
         List<WordInfo> wordList1 = PdfWordExtractor.getList(pdf1,pagesPDF1);
         List<WordInfo> wordList2 = PdfWordExtractor.getList(pdf2,pagesPDF2);
 //
-        List<WordInfo> diff = StringDiff.findDifference(wordList1,wordList2);
+        List<WordInfo> diff = StringDiff.find(wordList1,wordList2);
         StringBuilder builder = new StringBuilder();
         for (WordInfo wordInfo: diff){
             boolean accept = false;

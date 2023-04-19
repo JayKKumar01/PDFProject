@@ -4,8 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringDiff {
+    public static List<WordInfo> find(List<WordInfo> wordList1, List<WordInfo> wordList2){
+        InfoList list = findDifference(wordList1,wordList2,true);
+        InfoList newList = findDifference(list.getDeletedList(),list.getAddedList(),false);
 
-    public static List<WordInfo> findDifference(List<WordInfo> wordList1, List<WordInfo> wordList2) {
+        List<WordInfo> finalList = list.getList();
+        finalList.addAll(newList.getList());
+        finalList.addAll(newList.getDeletedList());
+        finalList.addAll(newList.getAddedList());
+        return finalList;
+    }
+
+
+    public static InfoList findDifference(List<WordInfo> wordList1, List<WordInfo> wordList2,boolean reset) {
         String[] words1 = listToArr(wordList1);
         String[] words2 = listToArr(wordList2);
         int n = words1.length;
@@ -29,7 +40,9 @@ public class StringDiff {
         }
         int i = n;
         int j = m;
-        List<WordInfo> diff = new ArrayList<>();
+        List<WordInfo> list = new ArrayList<>();
+        List<WordInfo> deletedList = new ArrayList<>();
+        List<WordInfo> addedList = new ArrayList<>();
         while (i > 0 || j > 0) {
             if (i > 0 && j > 0 && words1[i-1].equals(words2[j-1])) {
                 WordInfo wordInfo = wordList2.get(j-1);
@@ -37,39 +50,45 @@ public class StringDiff {
                 if (Base.isFontInfoSame(wordList1.get(i-1), wordInfo)) {
                     wordInfo.setOperation(WordInfo.Operation.EQUAL);
                 } else {
-                    List<WordInfo.Operation> list = Base.getFontOperation(wordList1.get(i-1), wordInfo);
-                    if (list.size() == 1){
-                        wordInfo.setOperation(list.get(0));
+                    List<WordInfo.Operation> opList = Base.getFontOperation(wordList1.get(i-1), wordInfo);
+                    if (opList.size() == 1){
+                        wordInfo.setOperation(opList.get(0));
                     }else {
-                        wordInfo.setOperation(list);
+                        wordInfo.setOperation(opList);
                     }
                 }
-                diff.add(0, wordInfo);
+                list.add(0, wordInfo);
                 i--;
                 j--;
             } else if (i > 0 && (j == 0 || dp[i][j-1] >= dp[i-1][j])) {
 
                 if (j ==0){
                     WordInfo wordInfo = wordList1.get(i - 1);
-                    wordInfo.setOperation(WordInfo.Operation.DELETED);
-                    diff.add(0, wordInfo);
+                    if (!reset) {
+                        wordInfo.setOperation(WordInfo.Operation.DELETED);
+                    }
+                    deletedList.add(0, wordInfo);
                 }
                 if (j>0 && confirmDel(words1,words2[j-1],i)) {
                     WordInfo wordInfo = wordList1.get(i - 1);
-                    wordInfo.setOperation(WordInfo.Operation.DELETED);
-                    diff.add(0, wordInfo);
+                    if (!reset) {
+                        wordInfo.setOperation(WordInfo.Operation.DELETED);
+                    }
+                    deletedList.add(0, wordInfo);
                 }
                 i--;
             } else if (i == 0 || dp[i][j - 1] < dp[i - 1][j]) {
                 if (confirmAdd(words1,words2[j-1],i)) {
                     WordInfo wordInfo = wordList2.get(j - 1);
-                    wordInfo.setOperation(WordInfo.Operation.ADDED);
-                    diff.add(0, wordInfo);
+                    if (!reset) {
+                        wordInfo.setOperation(WordInfo.Operation.ADDED);
+                    }
+                    addedList.add(0, wordInfo);
                 }
                 j--;
             }
         }
-        return diff;
+        return new InfoList(list,deletedList,addedList);
     }
 
     private static boolean confirmAdd(String[] words1, String word, int i) {
