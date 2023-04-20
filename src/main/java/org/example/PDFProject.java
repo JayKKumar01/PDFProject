@@ -85,8 +85,11 @@ public class PDFProject {
                     info.append(" [").append(operation).append("(").append(operation.getInfo()).append(")]");
                     accept = true;
                 }
-                if (operation == WordInfo.Operation.DELETED || operation == WordInfo.Operation.ADDED){
-                    info.append(" [").append(operation).append("]");
+                else if (operation == WordInfo.Operation.DELETED){
+                    info.append(" [").append(operation).append("] (").append(operation.getInfo()).append(")");
+                    accept = true;
+                } else if (operation == WordInfo.Operation.ADDED) {
+                    info.append(" [").append(operation).append("] (").append(operation.getInfo()).append(")");
                     accept = true;
                 }
             }

@@ -16,6 +16,8 @@ public class WordInfo {
         this.textPositions = textPositions;
     }
 
+
+
     public int getPageNumber() {
         return pageNumber;
     }

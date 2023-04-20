@@ -12,7 +12,7 @@ public class Base {
             return false;
         }
         return wordInfo1.getFontName().equals(wordInfo2.getFontName()) &&
-                wordInfo1.getFontSize() == wordInfo2.getFontSize();
+                wordInfo1.getFontSize() == wordInfo2.getFontSize() && wordInfo1.getFontStyle().equals(wordInfo2.getFontStyle());
     }
     public static List<WordInfo.Operation> getFontOperation(WordInfo wordInfo1, WordInfo wordInfo2) {
         List<WordInfo.Operation> list = new ArrayList<>();

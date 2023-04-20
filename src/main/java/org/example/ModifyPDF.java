@@ -14,11 +14,13 @@ public class ModifyPDF {
     public static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
     public static void updateDocument(List<WordInfo> wordList, PDDocument document1, PDDocument document2, String outputPath, List<Integer> pagesPDF1, List<Integer> pagesPDF2) throws IOException {
 
+        PDDocument document3 = document2;
         for (WordInfo wordInfo : wordList) {
             List<WordInfo.Operation> opList = wordInfo.getOperationsList();
             if (opList.size() == 1){
                 if (opList.get(0) == WordInfo.Operation.ADDED) {
                     addRect(wordInfo, document2, Color.GREEN);
+                    addRectAdded(wordInfo, document3, Color.GREEN);
                 } else if (opList.get(0) == WordInfo.Operation.FONTNAMEDIFF) {
                     addRect(wordInfo, document2, Color.YELLOW);
                 } else if (opList.get(0) == WordInfo.Operation.FONTSIZEDIFF) {
@@ -35,10 +37,17 @@ public class ModifyPDF {
 
         String path1 = TEMP_DIR +"/old.pdf";
         String path2 = TEMP_DIR +"/new.pdf";
+        String path3 = TEMP_DIR +"/edited.pdf";
+        decrypt(document1);
+        decrypt(document2);
+        decrypt(document3);
+
         document1.save(path1);
         document2.save(path2);
+        document3.save(path3);
         document1.close();
         document2.close();
+        document3.close();
         //System.out.println("Navigate to Document to see Result");
         File file1 = new File(path1);
         File file2 = new File(path2);
@@ -46,6 +55,124 @@ public class ModifyPDF {
         PDFProject.addTempFile(file2);
         PDFToImageConverter.createImage(file1, file2,outputPath,pagesPDF1,pagesPDF2);
 
+    }
+
+    private static void decrypt(PDDocument document) {
+        if (document.isEncrypted()){
+            document.setAllSecurityToBeRemoved(true);
+        }
+    }
+
+    public static PDDocument createDocumentFromWordInfo(List<WordInfo> wordInfoList) {
+        PDDocument newDocument = new PDDocument();
+        int currentPageNumber = 0;
+        PDPage currentPage = null;
+        PDPageContentStream contentStream = null;
+        for (WordInfo wordInfo : wordInfoList) {
+            int pageNumber = wordInfo.getPageNumber();
+            if (currentPageNumber != pageNumber) {
+                // Create new page
+                currentPage = new PDPage();
+                newDocument.addPage(currentPage);
+                currentPageNumber = pageNumber;
+                try {
+                    // Start new content stream for the new page
+                    contentStream = new PDPageContentStream(newDocument, currentPage);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            try {
+                // Add the text to the current page
+                contentStream.setFont(wordInfo.getFont(), wordInfo.getFontSize());
+                contentStream.setNonStrokingColor(wordInfo.getColor());
+                for (TextPosition text : wordInfo.getTextPositions()) {
+                    contentStream.beginText();
+                    contentStream.setTextMatrix(Matrix.getTranslateInstance(text.getX(), text.getY()));
+                    contentStream.showText(text.getUnicode());
+                    contentStream.endText();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        // Close the last content stream if it was created
+        if (contentStream != null) {
+            try {
+                contentStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return newDocument;
+    }
+
+
+    private static void addRectAdded(WordInfo wordInfo, PDDocument document, Color color) {
+
+        int currentPageNumber = wordInfo.getPageNumber();
+        PDPage page = new PDPage();
+        if (document.getNumberOfPages() < currentPageNumber){
+            document.addPage(page);
+        }else {
+            page = document.getPage(currentPageNumber -1);
+        }
+        PDPageContentStream contentStream = null;
+
+
+
+
+
+        for (WordInfo wordInfo : wordInfoList) {
+            int pageNumber = wordInfo.getPageNumber();
+            if (currentPageNumber != pageNumber) {
+                // Create new page
+                currentPage = new PDPage();
+                newDocument.addPage(currentPage);
+                currentPageNumber = pageNumber;
+                try {
+                    // Start new content stream for the new page
+                    contentStream = new PDPageContentStream(newDocument, currentPage);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            try {
+                // Add the text to the current page
+                contentStream.setFont(wordInfo.getFont(), wordInfo.getFontSize());
+                contentStream.setNonStrokingColor(wordInfo.getColor());
+                for (TextPosition text : wordInfo.getTextPositions()) {
+                    contentStream.beginText();
+                    contentStream.setTextMatrix(Matrix.getTranslateInstance(text.getX(), text.getY()));
+                    contentStream.showText(text.getUnicode());
+                    contentStream.endText();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+
+
+        List<TextPosition> textPositions = wordInfo.getTextPositions();
+        TextPosition firstTextPosition = textPositions.get(0);
+        TextPosition lastTextPosition = textPositions.get(textPositions.size() - 1);
+        int pageIndex = wordInfo.getPageNumber() - 1;
+        PDPage page = document.getPage(pageIndex);
+        try (PDPageContentStream contentStream = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
+            contentStream.setLineWidth(2);
+            contentStream.setStrokingColor(color);
+            float padding = 2f;
+            float x = firstTextPosition.getX() - padding;
+            float y = page.getMediaBox().getHeight() - lastTextPosition.getY()  - padding;
+            float width = lastTextPosition.getX() + lastTextPosition.getWidth() - firstTextPosition.getX() + padding * 2;
+            float height = lastTextPosition.getHeight() + padding * 2;
+            contentStream.addRect(x, y, width, height);
+            contentStream.stroke();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void addRect(WordInfo wordInfo, PDDocument document, Color color) throws IOException {
