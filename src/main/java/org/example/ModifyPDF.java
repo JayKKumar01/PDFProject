@@ -14,7 +14,8 @@ public class ModifyPDF {
     public static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
     public static void updateDocument(List<WordInfo> wordList, PDDocument document1, PDDocument document2, String outputPath, List<Integer> pagesPDF1, List<Integer> pagesPDF2) throws IOException {
 
-        PDDocument document3 = document2;
+        PDDocument document3 = new PDDocument();
+        document3.addPage(new PDPage());
         for (WordInfo wordInfo : wordList) {
             List<WordInfo.Operation> opList = wordInfo.getOperationsList();
             if (opList.size() == 1){
@@ -50,9 +51,11 @@ public class ModifyPDF {
         //System.out.println("Navigate to Document to see Result");
         File file1 = new File(path1);
         File file2 = new File(path2);
+        File file3 = new File(path3);
         PDFProject.addTempFile(file1);
         PDFProject.addTempFile(file2);
-        PDFToImageConverter.createImage(file1, file2,outputPath,pagesPDF1,pagesPDF2);
+        PDFProject.addTempFile(file3);
+        PDFToImageConverter.createImage(file1, file2,file3,outputPath,pagesPDF1,pagesPDF2);
 
     }
 
