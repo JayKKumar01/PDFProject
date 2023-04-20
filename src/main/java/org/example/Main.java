@@ -28,7 +28,7 @@ public class Main {
 //        pdfProject.setPagesNumberForFile2(new int[]{11});
         pdfProject.setOutputPath("E:/Sample/outputImages/");
         pdfProject.compare();
-        System.out.println(pdfProject.getDiffString());
+        //System.out.println(pdfProject.getDiffString());
 
 
 //        List<WordInfo> wordList1 = PdfWordExtractor.getList(pdf1);

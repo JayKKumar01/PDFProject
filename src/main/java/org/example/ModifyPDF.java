@@ -16,8 +16,14 @@ public class ModifyPDF {
 
         PDDocument document3 = new PDDocument();
         document3.addPage(new PDPage());
+
+        InfoDocUtil infoDocUtil = new InfoDocUtil();
+        infoDocUtil.addText(wordList,document3);
+
         for (WordInfo wordInfo : wordList) {
             List<WordInfo.Operation> opList = wordInfo.getOperationsList();
+
+
             if (opList.size() == 1){
                 if (opList.get(0) == WordInfo.Operation.ADDED) {
                     addRect(wordInfo, document2, Color.GREEN);
@@ -59,11 +65,14 @@ public class ModifyPDF {
 
     }
 
+
+
     private static void decrypt(PDDocument document) {
         if (document.isEncrypted()){
             document.setAllSecurityToBeRemoved(true);
         }
     }
+
 
 
 

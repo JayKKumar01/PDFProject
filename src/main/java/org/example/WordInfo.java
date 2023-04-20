@@ -2,6 +2,8 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.text.TextPosition;
 
 public class WordInfo {
@@ -45,6 +47,14 @@ public class WordInfo {
         }
         return font;
     }
+
+    public PDFont getPDFont() {
+        if (textPositions != null && textPositions.size() > 0) {
+            TextPosition firstTextPosition = textPositions.get(0);
+            return firstTextPosition.getFont();
+        }
+        return null;
+    }
     public String getFont() {
         if (textPositions != null && textPositions.size() > 0) {
             TextPosition firstTextPosition = textPositions.get(0);
@@ -86,6 +96,8 @@ public class WordInfo {
     public void setOperation(Operation operation) {
         operationsList.add(operation);
     }
+
+
 
     public enum Operation {
         EQUAL, ADDED, DELETED, FONTSIZEDIFF,FONTNAMEDIFF,FONTSTYLEDIFF;
