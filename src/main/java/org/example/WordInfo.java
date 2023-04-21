@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.text.TextPosition;
 
 public class WordInfo {
@@ -12,13 +13,20 @@ public class WordInfo {
     private final List<TextPosition> textPositions;
     private List<Operation> operationsList = new ArrayList<>();
     private int pageNumber = 1;
+    private PDColor color;
 
     public WordInfo(String word, List<TextPosition> textPositions) {
         this.word = word;
         this.textPositions = textPositions;
     }
 
+    public PDColor getColor() {
+        return color;
+    }
 
+    public void setColor(PDColor color) {
+        this.color = color;
+    }
 
     public int getPageNumber() {
         return pageNumber;

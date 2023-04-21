@@ -3,16 +3,35 @@ package org.example;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.pdfbox.contentstream.operator.color.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 
 public class PdfWordExtractor extends PDFTextStripper {
 
     private final List<WordInfo> wordInfoList = new ArrayList<>();
+    private List<PDColor> colorList = new ArrayList<>();
+
+    int colorIndex = 0;
 
     public PdfWordExtractor(PDDocument doc, List<Integer> pagesToExtract) throws IOException {
-        super();
+        addOperator(new SetStrokingColorSpace());
+        addOperator(new SetNonStrokingColorSpace());
+        addOperator(new SetStrokingDeviceCMYKColor());
+        addOperator(new SetNonStrokingDeviceCMYKColor());
+        addOperator(new SetNonStrokingDeviceRGBColor());
+        addOperator(new SetStrokingDeviceRGBColor());
+        addOperator(new SetNonStrokingDeviceGrayColor());
+        addOperator(new SetStrokingDeviceGrayColor());
+        addOperator(new SetStrokingColor());
+        addOperator(new SetStrokingColorN());
+        addOperator(new SetNonStrokingColor());
+        addOperator(new SetNonStrokingColorN());
+        //super();
         //this.setSortByPosition(true);
         if (pagesToExtract.isEmpty()){
             this.getText(doc);
@@ -36,9 +55,19 @@ public class PdfWordExtractor extends PDFTextStripper {
     }
 
     @Override
+    protected void processTextPosition(TextPosition text) {
+        super.processTextPosition(text);
+        PDColor color = getGraphicsState().getNonStrokingColor();
+        colorList.add(color);
+    }
+
+    @Override
     protected void writeString(String string, List<TextPosition> textPositions) {
+
+
         String[] words = string.split(getWordSeparator());
         int i = 0;
+
         for (String word : words) {
             if (!word.isEmpty()) {
                 List<TextPosition> positions = new ArrayList<>();
@@ -47,11 +76,14 @@ public class PdfWordExtractor extends PDFTextStripper {
                 }
                 WordInfo wordInfo = new WordInfo(word, positions);
                 wordInfo.setPageNumber(this.getCurrentPageNo());
+                wordInfo.setColor(colorList.get(i+colorIndex));
                 wordInfoList.add(wordInfo);
             }
             i += word.length() + 1;
         }
+        colorIndex += textPositions.size();
     }
+
 
 
     public List<WordInfo> getWordInfoList() {

@@ -5,6 +5,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.text.TextPosition;
 import org.apache.pdfbox.util.Matrix;
 
@@ -22,7 +23,9 @@ public class InfoDocUtil {
         float prevPosition = 0;
         PDFont prevFont = null;
 
-        StringBuilder word = new StringBuilder();
+        List<String> wordList = new ArrayList<>();
+        List<PDColor> colorList = new ArrayList<>();
+
         wordInfoList.sort(new SortingUtil());
 
         List<Info> infoList = new ArrayList<>();
@@ -37,6 +40,7 @@ public class InfoDocUtil {
             float curPosition = 0;
             PDFont curFont = firstPosition.getFont();
 
+
             List<WordInfo.Operation> opList = wordInfo.getOperationsList();
 
             boolean accept = false;
@@ -45,7 +49,7 @@ public class InfoDocUtil {
 
             for (WordInfo.Operation operation: opList){
                 if (operation == WordInfo.Operation.SIZE || operation == WordInfo.Operation.STYLE || operation == WordInfo.Operation.FONT){
-                    infoText.append("[").append(operation).append(": (").append(operation.getInfo()).append("] ");
+                    infoText.append("[").append(operation).append(": (").append(operation.getInfo()).append(")] ");
                     accept = true;
                 }
                 else if (operation == WordInfo.Operation.DELETED){
@@ -69,19 +73,21 @@ public class InfoDocUtil {
 
 
 
-            if ((!word.toString().isEmpty() && !prevInfo.equals(curInfo)) || (!word.toString().isEmpty() && prevPosition != curPosition)){
-                Info info = new Info(word.toString(),prevInfo,prevColor,prevFont);
+            if ((!wordList.isEmpty() && !prevInfo.equals(curInfo)) || (!wordList.isEmpty() && prevPosition != curPosition)){
+                Info info = new Info(wordList, prevInfo, colorList, prevColor, prevFont);
                 infoList.add(info);
-                word = new StringBuilder();
+                wordList = new ArrayList<>();
+                colorList = new ArrayList<>();
             }
-            word.append(wordInfo.getWord()).append(" ");
+            wordList.add(wordInfo.getWord());
+            colorList.add(wordInfo.getColor());
             prevInfo = curInfo;
             prevPosition = curPosition;
             prevColor = color;
             prevFont = curFont;
         }
-        if (!word.toString().isEmpty()){
-            Info info = new Info(word.toString(),prevInfo,prevColor,prevFont);
+        if (!wordList.isEmpty()){
+            Info info = new Info(wordList, prevInfo, colorList, prevColor, prevFont);
             infoList.add(info);
         }
 
@@ -109,14 +115,17 @@ public class InfoDocUtil {
             try(PDPageContentStream contentStream = new PDPageContentStream(document,page,PDPageContentStream.AppendMode.APPEND,true,true)){
 
 
-                contentStream.setNonStrokingColor(Color.BLACK);
                 contentStream.beginText();
 
                 contentStream.setTextMatrix(Matrix.getTranslateInstance(20,yLimit));
-                String[] wList = in.getWord().trim().split(" ");
-                for (String w: wList){
+                List<String> inWordList = in.getWordList();
+                List<PDColor> inColorList = in.getColorList();
+
+                for (int i=0; i<inWordList.size(); i++){
+                    contentStream.setNonStrokingColor(inColorList.get(i));
                     contentStream.setFont(in.getFont(),12);
-                    contentStream.showText(w);
+                    contentStream.showText(inWordList.get(i));
+                    contentStream.setNonStrokingColor(Color.BLACK);
                     contentStream.setFont(PDType1Font.TIMES_ROMAN,12);
                     contentStream.showText(" ");
                 }
@@ -178,34 +187,27 @@ public class InfoDocUtil {
         return " ";
     }
 
-    private class Info{
-        String word;
+    private static class Info{
+        List<String> wordList;
         String info;
+        List<PDColor> colorList;
         Color color;
-
         PDFont font;
 
-        public Info(String word, String info, Color color, PDFont font) {
-            this.word = word;
+        public Info(List<String> wordList, String info, List<PDColor> colorList, Color color, PDFont font) {
+            this.wordList = wordList;
             this.info = info;
+            this.colorList = colorList;
             this.color = color;
             this.font = font;
         }
 
-        public PDFont getFont() {
-            return font;
+        public List<String> getWordList() {
+            return wordList;
         }
 
-        public void setFont(PDFont font) {
-            this.font = font;
-        }
-
-        public String getWord() {
-            return word;
-        }
-
-        public void setWord(String word) {
-            this.word = word;
+        public void setWordList(List<String> wordList) {
+            this.wordList = wordList;
         }
 
         public String getInfo() {
@@ -216,12 +218,28 @@ public class InfoDocUtil {
             this.info = info;
         }
 
+        public List<PDColor> getColorList() {
+            return colorList;
+        }
+
+        public void setColorList(List<PDColor> colorList) {
+            this.colorList = colorList;
+        }
+
         public Color getColor() {
             return color;
         }
 
         public void setColor(Color color) {
             this.color = color;
+        }
+
+        public PDFont getFont() {
+            return font;
+        }
+
+        public void setFont(PDFont font) {
+            this.font = font;
         }
     }
 
