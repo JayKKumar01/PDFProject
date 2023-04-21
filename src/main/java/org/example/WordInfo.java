@@ -97,10 +97,15 @@ public class WordInfo {
         operationsList.add(operation);
     }
 
+    public int getPosition(){
+        TextPosition textPosition = textPositions.get(0);
+        return (int) textPosition.getY();
+    }
+
 
 
     public enum Operation {
-        EQUAL, ADDED, DELETED, FONTSIZEDIFF,FONTNAMEDIFF,FONTSTYLEDIFF;
+        EQUAL, ADDED, DELETED, SIZE, FONT, STYLE;
         String info = null;
         void setInfo(String info){
             this.info = info;

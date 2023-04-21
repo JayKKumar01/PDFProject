@@ -81,7 +81,7 @@ public class PDFProject {
             info.append("\"").append(wordInfo.getWord()).append("\":");
 
             for (WordInfo.Operation operation: wordInfo.getOperationsList()){
-                if (operation == WordInfo.Operation.FONTSIZEDIFF || operation == WordInfo.Operation.FONTSTYLEDIFF || operation == WordInfo.Operation.FONTNAMEDIFF){
+                if (operation == WordInfo.Operation.SIZE || operation == WordInfo.Operation.STYLE || operation == WordInfo.Operation.FONT){
                     info.append(" [").append(operation).append("(").append(operation.getInfo()).append(")]");
                     accept = true;
                 }

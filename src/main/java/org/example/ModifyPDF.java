@@ -27,11 +27,11 @@ public class ModifyPDF {
             if (opList.size() == 1){
                 if (opList.get(0) == WordInfo.Operation.ADDED) {
                     addRect(wordInfo, document2, Color.GREEN);
-                } else if (opList.get(0) == WordInfo.Operation.FONTNAMEDIFF) {
+                } else if (opList.get(0) == WordInfo.Operation.FONT) {
                     addRect(wordInfo, document2, Color.YELLOW);
-                } else if (opList.get(0) == WordInfo.Operation.FONTSIZEDIFF) {
+                } else if (opList.get(0) == WordInfo.Operation.SIZE) {
                     addRect(wordInfo, document2, Color.BLUE);
-                } else if (opList.get(0) == WordInfo.Operation.FONTSTYLEDIFF) {
+                } else if (opList.get(0) == WordInfo.Operation.STYLE) {
                     addRect(wordInfo, document2, Color.CYAN);
                 } else if (opList.get(0) == WordInfo.Operation.DELETED){
                     addRect(wordInfo,document1,Color.RED);

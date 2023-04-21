@@ -7,6 +7,10 @@ public class Base {
     public static final String SAMPLEPATH = "E:/Sample/";
 
 
+
+
+
+
     public static boolean isFontInfoSame(WordInfo wordInfo1, WordInfo wordInfo2) {
         if (wordInfo1.getFont() == null){
             return false;
@@ -17,17 +21,17 @@ public class Base {
     public static List<WordInfo.Operation> getFontOperation(WordInfo wordInfo1, WordInfo wordInfo2) {
         List<WordInfo.Operation> list = new ArrayList<>();
         if (!wordInfo1.getFontName().equals(wordInfo2.getFontName())){
-            WordInfo.Operation operation = WordInfo.Operation.FONTNAMEDIFF;
+            WordInfo.Operation operation = WordInfo.Operation.FONT;
             operation.setInfo(wordInfo1.getFontName() + " : "+wordInfo2.getFontName());
             list.add(operation);
         }
         if (wordInfo1.getFontSize() != wordInfo2.getFontSize()){
-            WordInfo.Operation operation = WordInfo.Operation.FONTSIZEDIFF;
+            WordInfo.Operation operation = WordInfo.Operation.SIZE;
             operation.setInfo(wordInfo1.getFontSize() + " : "+wordInfo2.getFontSize());
             list.add(operation);
         }
         if (!wordInfo1.getFontStyle().equals(wordInfo2.getFontStyle())){
-            WordInfo.Operation operation = WordInfo.Operation.FONTSTYLEDIFF;
+            WordInfo.Operation operation = WordInfo.Operation.STYLE;
             operation.setInfo(wordInfo1.getFontStyle() + " : "+wordInfo2.getFontStyle());
             list.add(operation);
         }
