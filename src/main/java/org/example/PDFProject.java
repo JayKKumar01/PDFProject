@@ -78,14 +78,18 @@ public class PDFProject {
 
             StringBuilder info = new StringBuilder();
             info.append("\"").append(wordInfo.getWord()).append("\":");
+            boolean accept = false;
 
             for (WordInfo.Info opInfo: wordInfo.getInfoList()){
                 WordInfo.Operation operation = opInfo.getOperation();
                 if (operation != WordInfo.Operation.EQUAL){
-                    info.append(" [").append(opInfo).append(": (").append(opInfo.getInfo()).append(")]");
+                    info.append(" [").append(operation).append(": (").append(opInfo.getInfo()).append(")]");
+                    accept = true;
                 }
             }
-            builder.append(info).append("\n");
+            if (accept) {
+                builder.append(info).append("\n");
+            }
         }
         diffString = builder.toString();
 

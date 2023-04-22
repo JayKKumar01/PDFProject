@@ -48,7 +48,7 @@ public class StringDiff {
                 WordInfo wordInfo = wordList2.get(j-1);
 
                 if (Base.isFontInfoSame(wordList1.get(i-1), wordInfo)) {
-                    String info = "Font: "+wordInfo.getFont() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
+                    String info = "Font: "+wordInfo.getFontName() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
                     wordInfo.setInfoList(WordInfo.Operation.EQUAL,info);
                 } else {
                     List<WordInfo.Info> infoList = Base.getFontOperation(wordList1.get(i-1), wordInfo);
@@ -62,7 +62,7 @@ public class StringDiff {
                 if (j ==0){
                     WordInfo wordInfo = wordList1.get(i - 1);
                     if (!reset) {
-                        String info = "Font: "+wordInfo.getFont() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
+                        String info = "Font: "+wordInfo.getFontName() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
                         wordInfo.setInfoList(WordInfo.Operation.DELETED,info);
                     }
                     deletedList.add(0, wordInfo);
@@ -70,7 +70,7 @@ public class StringDiff {
                 if (j>0 && confirmDel(words1,words2[j-1],i)) {
                     WordInfo wordInfo = wordList1.get(i - 1);
                     if (!reset) {
-                        String info = "Font: "+wordInfo.getFont() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
+                        String info = "Font: "+wordInfo.getFontName() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
                         wordInfo.setInfoList(WordInfo.Operation.DELETED,info);
                     }
                     deletedList.add(0, wordInfo);
@@ -80,7 +80,7 @@ public class StringDiff {
                 if (confirmAdd(words1,words2[j-1],i)) {
                     WordInfo wordInfo = wordList2.get(j - 1);
                     if (!reset) {
-                        String info = "Font: "+wordInfo.getFont() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
+                        String info = "Font: "+wordInfo.getFontName() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
                         wordInfo.setInfoList(WordInfo.Operation.ADDED,info);
                     }
                     addedList.add(0, wordInfo);
