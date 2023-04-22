@@ -36,7 +36,7 @@ public class PDFToImageConverter {
 
         // Load the second PDF and render all its pages to images
         List<BufferedImage> pdf2Images = createImagesFromPdf(pdf2,pagesPDF2);
-        List<BufferedImage> pdf3Images = createImagesFromPdf(pdf3,new ArrayList<>());
+        List<BufferedImage> pdf3Images = createImagesFromPdf(pdf3,new ArrayList<Integer>());
 
         // Determine the number of pages in the combined PDF (the larger of the two)
         int numPages = Math.max(pdf1Images.size(), pdf2Images.size());
