@@ -25,16 +25,17 @@ public class ModifyPDF {
 
 
             if (infoList.size() == 1){
+                Color color = infoList.get(0).getColor();
                 if (infoList.get(0).getOperation() == WordInfo.Operation.ADDED) {
-                    addRect(wordInfo, document2, Color.GREEN);
+                    addRect(wordInfo, document2, color);
                 } else if (infoList.get(0).getOperation() == WordInfo.Operation.FONT) {
-                    addRect(wordInfo, document2, Color.YELLOW);
+                    addRect(wordInfo, document2, color);
                 } else if (infoList.get(0).getOperation() == WordInfo.Operation.SIZE) {
-                    addRect(wordInfo, document2, Color.BLUE);
+                    addRect(wordInfo, document2, color);
                 } else if (infoList.get(0).getOperation() == WordInfo.Operation.STYLE) {
-                    addRect(wordInfo, document2, Color.CYAN);
+                    addRect(wordInfo, document2, color);
                 } else if (infoList.get(0).getOperation() == WordInfo.Operation.DELETED){
-                    addRect(wordInfo,document1,Color.RED);
+                    addRect(wordInfo,document1,color);
                 }
             }else{
                 addRect(wordInfo, document2, Color.BLACK);

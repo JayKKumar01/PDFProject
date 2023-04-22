@@ -1,5 +1,6 @@
 package org.example;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,6 +124,26 @@ public class WordInfo {
         public Info(Operation operation, String info) {
             this.operation = operation;
             this.info = info;
+        }
+
+
+        public Color getColor() {
+            if (operation == Operation.DELETED){
+                return Color.RED;
+            }
+            if (operation == Operation.ADDED){
+                return Color.GREEN;
+            }
+            if (operation == Operation.SIZE){
+                return Color.BLUE;
+            }
+            if (operation == Operation.FONT){
+                return Color.YELLOW;
+            }
+            if (operation == Operation.STYLE){
+                return Color.CYAN;
+            }
+            return Color.BLACK;
         }
 
         public Operation getOperation() {

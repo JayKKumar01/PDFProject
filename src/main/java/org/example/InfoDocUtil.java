@@ -51,9 +51,10 @@ public class InfoDocUtil {
                 if (operation != WordInfo.Operation.EQUAL){
                     infoText.append("[").append(operation).append(": (").append(opInfo.getInfo()).append(")]");
                     accept = true;
+
                 }
                 if (opList.size() == 1 && accept){
-                    color = setColor(operation);
+                    color = opInfo.getColor();
                 }
             }
 
@@ -160,20 +161,7 @@ public class InfoDocUtil {
 
 
 
-    private Color setColor(WordInfo.Operation operation) {
-        if (operation == WordInfo.Operation.ADDED){
-            return Color.GREEN;
-        }else if (operation == WordInfo.Operation.DELETED){
-            return Color.RED;
-        }else if (operation == WordInfo.Operation.STYLE){
-            return Color.CYAN;
-        }else if (operation == WordInfo.Operation.FONT){
-            return Color.YELLOW;
-        }else if (operation == WordInfo.Operation.SIZE){
-            return Color.BLUE;
-        }
-        return Color.BLACK;
-    }
+
 
 
     private String getOperationString(WordInfo.Operation operation) {
