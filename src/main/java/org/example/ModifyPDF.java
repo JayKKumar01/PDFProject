@@ -21,19 +21,19 @@ public class ModifyPDF {
         infoDocUtil.addText(wordList,document3);
 
         for (WordInfo wordInfo : wordList) {
-            List<WordInfo.Operation> opList = wordInfo.getOperationsList();
+            List<WordInfo.Info> infoList = wordInfo.getInfoList();
 
 
-            if (opList.size() == 1){
-                if (opList.get(0) == WordInfo.Operation.ADDED) {
+            if (infoList.size() == 1){
+                if (infoList.get(0).getOperation() == WordInfo.Operation.ADDED) {
                     addRect(wordInfo, document2, Color.GREEN);
-                } else if (opList.get(0) == WordInfo.Operation.FONT) {
+                } else if (infoList.get(0).getOperation() == WordInfo.Operation.FONT) {
                     addRect(wordInfo, document2, Color.YELLOW);
-                } else if (opList.get(0) == WordInfo.Operation.SIZE) {
+                } else if (infoList.get(0).getOperation() == WordInfo.Operation.SIZE) {
                     addRect(wordInfo, document2, Color.BLUE);
-                } else if (opList.get(0) == WordInfo.Operation.STYLE) {
+                } else if (infoList.get(0).getOperation() == WordInfo.Operation.STYLE) {
                     addRect(wordInfo, document2, Color.CYAN);
-                } else if (opList.get(0) == WordInfo.Operation.DELETED){
+                } else if (infoList.get(0).getOperation() == WordInfo.Operation.DELETED){
                     addRect(wordInfo,document1,Color.RED);
                 }
             }else{

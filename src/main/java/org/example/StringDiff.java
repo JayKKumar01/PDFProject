@@ -48,14 +48,11 @@ public class StringDiff {
                 WordInfo wordInfo = wordList2.get(j-1);
 
                 if (Base.isFontInfoSame(wordList1.get(i-1), wordInfo)) {
-                    wordInfo.setOperation(WordInfo.Operation.EQUAL);
+                    String info = "Font: "+wordInfo.getFont() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
+                    wordInfo.setInfoList(WordInfo.Operation.EQUAL,info);
                 } else {
-                    List<WordInfo.Operation> opList = Base.getFontOperation(wordList1.get(i-1), wordInfo);
-                    if (opList.size() == 1){
-                        wordInfo.setOperation(opList.get(0));
-                    }else {
-                        wordInfo.setOperation(opList);
-                    }
+                    List<WordInfo.Info> infoList = Base.getFontOperation(wordList1.get(i-1), wordInfo);
+                    wordInfo.setInfoList(infoList);
                 }
                 list.add(0, wordInfo);
                 i--;
@@ -65,18 +62,16 @@ public class StringDiff {
                 if (j ==0){
                     WordInfo wordInfo = wordList1.get(i - 1);
                     if (!reset) {
-                        WordInfo.Operation op = WordInfo.Operation.DELETED;
-                        op.setInfo("Font : "+wordInfo.getFontName() + ", Size: "+ wordInfo.getFontSize()+ ", Style: " + wordInfo.getFontStyle());
-                        wordInfo.setOperation(op);
+                        String info = "Font: "+wordInfo.getFont() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
+                        wordInfo.setInfoList(WordInfo.Operation.DELETED,info);
                     }
                     deletedList.add(0, wordInfo);
                 }
                 if (j>0 && confirmDel(words1,words2[j-1],i)) {
                     WordInfo wordInfo = wordList1.get(i - 1);
                     if (!reset) {
-                        WordInfo.Operation op = WordInfo.Operation.DELETED;
-                        op.setInfo("Font : "+wordInfo.getFontName() + ", Size: "+ wordInfo.getFontSize()+ ", Style: " + wordInfo.getFontStyle());
-                        wordInfo.setOperation(op);
+                        String info = "Font: "+wordInfo.getFont() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
+                        wordInfo.setInfoList(WordInfo.Operation.DELETED,info);
                     }
                     deletedList.add(0, wordInfo);
                 }
@@ -85,9 +80,8 @@ public class StringDiff {
                 if (confirmAdd(words1,words2[j-1],i)) {
                     WordInfo wordInfo = wordList2.get(j - 1);
                     if (!reset) {
-                        WordInfo.Operation op = WordInfo.Operation.ADDED;
-                        op.setInfo("Font : "+wordInfo.getFontName() + ", Size: "+ wordInfo.getFontSize()+ ", Style: " + wordInfo.getFontStyle());
-                        wordInfo.setOperation(op);
+                        String info = "Font: "+wordInfo.getFont() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
+                        wordInfo.setInfoList(WordInfo.Operation.ADDED,info);
                     }
                     addedList.add(0, wordInfo);
                 }

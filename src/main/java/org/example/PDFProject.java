@@ -75,31 +75,17 @@ public class PDFProject {
         List<WordInfo> diff = StringDiff.find(wordList1,wordList2);
         StringBuilder builder = new StringBuilder();
         for (WordInfo wordInfo: diff){
-            boolean accept = false;
 
             StringBuilder info = new StringBuilder();
             info.append("\"").append(wordInfo.getWord()).append("\":");
 
-            for (WordInfo.Operation operation: wordInfo.getOperationsList()){
-                if (operation == WordInfo.Operation.SIZE || operation == WordInfo.Operation.STYLE || operation == WordInfo.Operation.FONT){
-                    info.append(" [").append(operation).append("(").append(operation.getInfo()).append(")]");
-                    accept = true;
-                }
-                else if (operation == WordInfo.Operation.DELETED){
-                    info.append(" [").append(operation).append("] (").append(operation.getInfo()).append(")");
-                    accept = true;
-                } else if (operation == WordInfo.Operation.ADDED) {
-                    info.append(" [").append(operation).append("] (").append(operation.getInfo()).append(")");
-                    accept = true;
+            for (WordInfo.Info opInfo: wordInfo.getInfoList()){
+                WordInfo.Operation operation = opInfo.getOperation();
+                if (operation != WordInfo.Operation.EQUAL){
+                    info.append(" [").append(opInfo).append(": (").append(opInfo.getInfo()).append(")]");
                 }
             }
-            if (accept){
-                builder.append(info).append("\n");
-            }
-
-//            String opList = wordInfo.getOperationsList().toString();
-//            builder.append("\"").append(wordInfo.getWord()).append("\"").append(": ").append(opList).append("\n");
-            //diffString += "\""+wordInfo.getWord()+"\"" + ": "+ opList+"\n";
+            builder.append(info).append("\n");
         }
         diffString = builder.toString();
 

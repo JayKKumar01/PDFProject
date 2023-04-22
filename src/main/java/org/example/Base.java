@@ -18,22 +18,19 @@ public class Base {
         return wordInfo1.getFontName().equals(wordInfo2.getFontName()) &&
                 wordInfo1.getFontSize() == wordInfo2.getFontSize() && wordInfo1.getFontStyle().equals(wordInfo2.getFontStyle());
     }
-    public static List<WordInfo.Operation> getFontOperation(WordInfo wordInfo1, WordInfo wordInfo2) {
-        List<WordInfo.Operation> list = new ArrayList<>();
+    public static List<WordInfo.Info> getFontOperation(WordInfo wordInfo1, WordInfo wordInfo2) {
+        List<WordInfo.Info> list = new ArrayList<>();
         if (!wordInfo1.getFontName().equals(wordInfo2.getFontName())){
-            WordInfo.Operation operation = WordInfo.Operation.FONT;
-            operation.setInfo(wordInfo1.getFontName() + " : "+wordInfo2.getFontName());
-            list.add(operation);
+            WordInfo.Info info = new WordInfo.Info(WordInfo.Operation.FONT,wordInfo1.getFontName() + " : "+wordInfo2.getFontName());
+            list.add(info);
         }
         if (wordInfo1.getFontSize() != wordInfo2.getFontSize()){
-            WordInfo.Operation operation = WordInfo.Operation.SIZE;
-            operation.setInfo(wordInfo1.getFontSize() + " : "+wordInfo2.getFontSize());
-            list.add(operation);
+            WordInfo.Info info = new WordInfo.Info(WordInfo.Operation.SIZE,wordInfo1.getFontSize() + " : "+wordInfo2.getFontSize());
+            list.add(info);
         }
         if (!wordInfo1.getFontStyle().equals(wordInfo2.getFontStyle())){
-            WordInfo.Operation operation = WordInfo.Operation.STYLE;
-            operation.setInfo(wordInfo1.getFontStyle() + " : "+wordInfo2.getFontStyle());
-            list.add(operation);
+            WordInfo.Info info = new WordInfo.Info(WordInfo.Operation.SIZE,wordInfo1.getFontStyle() + " : "+wordInfo2.getFontStyle());
+            list.add(info);
         }
         return list;
     }

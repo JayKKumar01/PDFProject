@@ -11,13 +11,21 @@ public class WordInfo {
 
     private final String word;
     private final List<TextPosition> textPositions;
-    private List<Operation> operationsList = new ArrayList<>();
     private int pageNumber = 1;
     private PDColor color;
+    private List<Info> infoList;
 
     public WordInfo(String word, List<TextPosition> textPositions) {
         this.word = word;
         this.textPositions = textPositions;
+    }
+
+    public List<Info> getInfoList() {
+        return infoList;
+    }
+
+    public void setInfoList(List<Info> infoList) {
+        this.infoList = infoList;
     }
 
     public PDColor getColor() {
@@ -91,20 +99,6 @@ public class WordInfo {
         return 0;
     }
 
-
-
-
-    public List<Operation> getOperationsList() {
-        return operationsList;
-    }
-
-    public void setOperation(List<Operation> operationsList) {
-        this.operationsList = operationsList;
-    }
-    public void setOperation(Operation operation) {
-        operationsList.add(operation);
-    }
-
     public int getPosition(){
         TextPosition textPosition = textPositions.get(0);
         return (int) textPosition.getY();
@@ -112,17 +106,43 @@ public class WordInfo {
 
 
 
+
     public enum Operation {
         EQUAL, ADDED, DELETED, SIZE, FONT, STYLE;
-        String info = null;
-        void setInfo(String info){
+    }
+
+    public void setInfoList(Operation operation, String info) {
+        List<Info> list = new ArrayList<>();
+        list.add(new Info(operation,info));
+        this.infoList = list;
+    }
+    public static class Info{
+        Operation operation;
+        String info;
+
+        public Info(Operation operation, String info) {
+            this.operation = operation;
             this.info = info;
         }
-        String getInfo(){
+
+        public Operation getOperation() {
+            return operation;
+        }
+
+        public void setOperation(Operation operation) {
+            this.operation = operation;
+        }
+
+        public String getInfo() {
             return info;
         }
+
+        public void setInfo(String info) {
+            this.info = info;
+        }
     }
-//    public enum FontStyle{
-//        NORMAL,BOLD,ITELIC,BOLD_ITELIC;
-//    }
+
+
+
+
 }

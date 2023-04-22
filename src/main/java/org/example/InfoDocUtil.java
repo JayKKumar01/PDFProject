@@ -41,22 +41,15 @@ public class InfoDocUtil {
             PDFont curFont = firstPosition.getFont();
 
 
-            List<WordInfo.Operation> opList = wordInfo.getOperationsList();
-
-            boolean accept = false;
+            List<WordInfo.Info> opList = wordInfo.getInfoList();
 
             StringBuilder infoText = new StringBuilder();
+            boolean accept = false;
 
-            for (WordInfo.Operation operation: opList){
-                if (operation == WordInfo.Operation.SIZE || operation == WordInfo.Operation.STYLE || operation == WordInfo.Operation.FONT){
-                    infoText.append("[").append(operation).append(": (").append(operation.getInfo()).append(")] ");
-                    accept = true;
-                }
-                else if (operation == WordInfo.Operation.DELETED){
-                    infoText.append("[").append(operation).append("] (").append(operation.getInfo()).append(")");
-                    accept = true;
-                } else if (operation == WordInfo.Operation.ADDED) {
-                    infoText.append("[").append(operation).append("] (").append(operation.getInfo()).append(")");
+            for (WordInfo.Info opInfo: wordInfo.getInfoList()){
+                WordInfo.Operation operation = opInfo.getOperation();
+                if (operation != WordInfo.Operation.EQUAL){
+                    infoText.append("[").append(operation).append(": (").append(opInfo.getInfo()).append(")]");
                     accept = true;
                 }
                 if (opList.size() == 1 && accept){
