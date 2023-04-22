@@ -29,7 +29,7 @@ public class Base {
             list.add(info);
         }
         if (!wordInfo1.getFontStyle().equals(wordInfo2.getFontStyle())){
-            WordInfo.Info info = new WordInfo.Info(WordInfo.Operation.SIZE,wordInfo1.getFontStyle() + " : "+wordInfo2.getFontStyle());
+            WordInfo.Info info = new WordInfo.Info(WordInfo.Operation.STYLE,wordInfo1.getFontStyle() + " : "+wordInfo2.getFontStyle());
             list.add(info);
         }
         return list;
