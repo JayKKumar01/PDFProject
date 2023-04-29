@@ -1,10 +1,9 @@
 package org.example;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringDiff {
+public class StringDiffTest {
     public static List<WordInfo> find(List<WordInfo> wordList1, List<WordInfo> wordList2){
         InfoList list = findDifference(wordList1,wordList2,true);
         InfoList newList = findDifference(list.getDeletedList(),list.getAddedList(),false);
@@ -14,6 +13,28 @@ public class StringDiff {
         finalList.addAll(newList.getDeletedList());
         finalList.addAll(newList.getAddedList());
         return finalList;
+    }
+
+
+    public static void main(String[] args) {
+        List<WordInfo> wordList1 = new ArrayList<>();
+        wordList1.add(new WordInfo("Form",null));
+        wordList1.add(new WordInfo("Title",null));
+        wordList1.add(new WordInfo("Page",null));
+        wordList1.add(new WordInfo("1",null));
+        wordList1.add(new WordInfo("of",null));
+        wordList1.add(new WordInfo("Form",null));
+
+        List<WordInfo> wordList2 = new ArrayList<>();
+        wordList2.add(new WordInfo("Form",null));
+        wordList2.add(new WordInfo("Title2",null));
+        wordList2.add(new WordInfo("Page",null));
+        wordList2.add(new WordInfo("2",null));
+        wordList2.add(new WordInfo("of",null));
+
+        findDifference(wordList1,wordList2,false);
+
+
     }
 
 
@@ -40,6 +61,22 @@ public class StringDiff {
                 }
             }
         }
+
+        for (int i=0; i<=n; i++){
+            for(int j=0; j<=m; j++) {
+                System.out.print(dp[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+//        if (true){
+//            return null;
+//        }
+
+
+
+
+
         int i = n;
         int j = m;
         List<WordInfo> list = new ArrayList<>();
@@ -48,45 +85,19 @@ public class StringDiff {
         while (i > 0 || j > 0) {
             if (i > 0 && j > 0 && words1[i-1].equals(words2[j-1])) {
                 WordInfo wordInfo = wordList2.get(j-1);
+                System.out.println("Equal "+wordInfo.getWord());
 
-                if (Base.isFontInfoSame(wordList1.get(i-1), wordInfo)) {
-                    String info = "Font: "+wordInfo.getFontName() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
-                    wordInfo.setInfoList(WordInfo.Operation.EQUAL,info);
-                } else {
-                    List<WordInfo.Info> infoList = Base.getFontOperation(wordList1.get(i-1), wordInfo);
-                    wordInfo.setInfoList(infoList);
-                }
-                list.add(0, wordInfo);
                 i--;
                 j--;
             } else if (i > 0 && (j == 0 || dp[i][j-1] >= dp[i-1][j])) {
+                WordInfo wordInfo = wordList1.get(i - 1);
+                System.out.println("Deleted "+wordInfo.getWord());
 
-                if (j ==0){
-                    WordInfo wordInfo = wordList1.get(i - 1);
-                    if (!reset) {
-                        String info = "Font: "+wordInfo.getFontName() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
-                        wordInfo.setInfoList(WordInfo.Operation.DELETED,info);
-                    }
-                    deletedList.add(0, wordInfo);
-                }
-                if (j>0 && confirmDel(words1,words2[j-1],i)) {
-                    WordInfo wordInfo = wordList1.get(i - 1);
-                    if (!reset) {
-                        String info = "Font: "+wordInfo.getFontName() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
-                        wordInfo.setInfoList(WordInfo.Operation.DELETED,info);
-                    }
-                    deletedList.add(0, wordInfo);
-                }
+
                 i--;
             } else if (i == 0 || dp[i][j - 1] < dp[i - 1][j]) {
-                if (confirmAdd(words1,words2[j-1],i)) {
-                    WordInfo wordInfo = wordList2.get(j - 1);
-                    if (!reset) {
-                        String info = "Font: "+wordInfo.getFontName() + ", Size: "+wordInfo.getFontSize() + ", Style: "+wordInfo.getFontStyle();
-                        wordInfo.setInfoList(WordInfo.Operation.ADDED,info);
-                    }
-                    addedList.add(0, wordInfo);
-                }
+                WordInfo wordInfo = wordList2.get(j - 1);
+                System.out.println("Addded " + wordInfo.getWord());
                 j--;
             }
         }
