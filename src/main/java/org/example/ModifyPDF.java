@@ -15,10 +15,10 @@ public class ModifyPDF {
     public static void updateDocument(List<WordInfo> wordList, PDDocument document1, PDDocument document2, String outputPath, List<Integer> pagesPDF1, List<Integer> pagesPDF2) throws IOException {
 
         PDDocument document3 = new PDDocument();
-        document3.addPage(new PDPage());
 
         InfoDocUtil infoDocUtil = new InfoDocUtil();
-        infoDocUtil.addText(wordList,document3);
+        infoDocUtil.setUp(wordList,document3);
+
 
         for (WordInfo wordInfo : wordList) {
             List<WordInfo.Info> infoList = wordInfo.getInfoList();

@@ -81,14 +81,16 @@ public class WordInfo {
     }
 
     public String getFontStyle() {
-        String font = getFont();
+        String font = getFont().toLowerCase().replace("mt","");
         if (font != null){
             if (font.contains("-")){
                 return (font.substring(font.lastIndexOf("-")+1)).toLowerCase();
+            }else if (font.contains(",")){
+                return (font.substring(font.lastIndexOf(",")+1));
             }
 
         }
-        return "normal";
+        return "regular";
     }
 
     public int getFontSize() {
@@ -138,7 +140,7 @@ public class WordInfo {
                 return Color.BLUE;
             }
             if (operation == Operation.FONT){
-                return Color.YELLOW;
+                return Color.magenta;
             }
             if (operation == Operation.STYLE){
                 return Color.CYAN;

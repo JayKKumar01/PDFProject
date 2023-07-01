@@ -5,7 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringDiff {
+
     public static List<WordInfo> find(List<WordInfo> wordList1, List<WordInfo> wordList2){
+        List<WordInfo> finalList = new ArrayList<>();
+
+        InfoList list1 = findDifference(wordList1,wordList2,true);
+        InfoList list2 = findDifference(list1.getDeletedList(),list1.getAddedList(),true);
+        InfoList list3 = findDifference(list2.getDeletedList(),list2.getAddedList(),false);
+
+        finalList.addAll(list1.getList());
+        finalList.addAll(list2.getList());
+
+        finalList.addAll(list3.getList());
+        finalList.addAll(list3.getDeletedList());
+        finalList.addAll(list3.getAddedList());
+
+
+
+
+        return finalList;
+    }
+    public static List<WordInfo> find1(List<WordInfo> wordList1, List<WordInfo> wordList2){
         InfoList list = findDifference(wordList1,wordList2,true);
         InfoList newList = findDifference(list.getDeletedList(),list.getAddedList(),false);
 

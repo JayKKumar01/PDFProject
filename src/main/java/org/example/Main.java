@@ -17,7 +17,7 @@ public class Main {
 //        pdfProject.setPagesNumberForFile2(new int[]{11});
         pdfProject.setOutputPath("E:/Sample/outputImages/");
         pdfProject.compare();
-
+        System.out.println("Completed");
 
 
 

@@ -23,7 +23,8 @@ public class WordToPdfConverter {
         if (docPath == null){
             return null;
         }
-        DocumentType type = getType(docPath);
+
+        DocumentType type = DocumentType.MS_WORD;
         File inputWord = new File(docPath);
         File outputPdf = new File(TEMP_DIR+"/"+System.currentTimeMillis()+".pdf");
         try {
@@ -32,7 +33,7 @@ public class WordToPdfConverter {
             IConverter converter = LocalConverter.builder().build();
             converter.convert(inputStream).as(type).to(outputStream)
                     .as(DocumentType.PDF).execute();
-            converter.shutDown();
+            //converter.shutDown();
             outputStream.close();
             PDFProject.addTempFile(outputPdf);
             System.out.println("Converted!");
