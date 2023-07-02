@@ -10,6 +10,7 @@ import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.text.TextPosition;
 import org.apache.pdfbox.util.Matrix;
 
+import javax.swing.plaf.metal.MetalTheme;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,21 +106,24 @@ public class InfoDocUtil {
         List<List<Info>> masterList = new ArrayList<>();
 
         // Finding the maximum page number
-        int maxPageNum = 0;
+        int maxPageNum = Integer.MIN_VALUE;
+        int minPageNum = Integer.MAX_VALUE;
         for (Info info : infoList) {
             int pageNum = info.getPageNum();
             maxPageNum = Math.max(maxPageNum, pageNum);
+            minPageNum = Math.min(minPageNum,pageNum);
         }
 
         // Adding sublists based on page numbers
-        for (int i = 0; i < maxPageNum; i++) {
-            masterList.add(new ArrayList<>());
+        for (int i = 0; i < (maxPageNum-minPageNum + 1); i++) {
+            List<Info> list = new ArrayList<>();
+            masterList.add(list);
         }
 
         // Populating the sublists
         for (Info info : infoList) {
-            int pageNum = info.getPageNum();
-            masterList.get(pageNum - 1).add(info);
+            int pageNum = info.getPageNum()-minPageNum;
+            masterList.get(pageNum).add(info);
         }
 
 
